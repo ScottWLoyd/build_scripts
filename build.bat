@@ -4,10 +4,15 @@ pushd ..\build
 del *.pdb > NUL 2> NULL
 echo WAITING FOR PDB > lock.tmp
 
-cl -Zi -FC -Wall source.c /link -incremental:no 
+set COMPILER_SWITCHES=-Zi -FC -TC -wd4668
+set LINKER_SWITCHES=/link -incremental:no user32.lib
+
+cl %COMPILER_SWITCHES% ..\code\win32_platform.c %LINKER_SWITCHES%
 
 del lock.tmp
 del *.obj
+
+popd
 
 REM Compiler Switches:
 
